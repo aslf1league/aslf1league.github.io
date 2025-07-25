@@ -8,17 +8,24 @@
       background-color: #000;
       color: #00B6FF;
       font-family: Arial, sans-serif;
-      font-size: 28px;
-      padding: 20px;
+      text-align: center;
+      padding-top: 100px;
     }
-    .pick {
-      margin-bottom: 15px;
+
+    h1 {
+      font-size: 48px;
+      margin-bottom: 20px;
+    }
+
+    #currentPick {
+      font-size: 120px;
+      font-weight: bold;
     }
   </style>
 </head>
 <body>
-  <h1>ASL Live Draft</h1>
-  <div id="draftPicks"></div>
+  <h1>Current Pick:</h1>
+  <div id="currentPick">--</div>
 
   <script>
     async function fetchData() {
@@ -27,19 +34,10 @@
       const text = await res.text();
       const rows = text.trim().split('\n').map(r => r.split(','));
 
-      const header = rows[0];
-      const data = rows.slice(1).reverse(); // reverse to show latest pick first
+      // Cell D11 = column 3 (index 3), row 10 (index 10)
+      const currentPick = rows[10]?.[3] || '--';
 
-      const container = document.getElementById('draftPicks');
-      container.innerHTML = '';
-
-      data.slice(0, 5).forEach(row => {
-        const [round, pick, team, driver] = row;
-        const div = document.createElement('div');
-        div.className = 'pick';
-        div.textContent = `R${round} P${pick}: ${team} → ${driver}`;
-        container.appendChild(div);
-      });
+      document.getElementById('currentPick').textContent = currentPick;
     }
 
     fetchData();
@@ -47,3 +45,4 @@
   </script>
 </body>
 </html>
+
