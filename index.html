@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ASL Draft Timer</title>
+  <style>
+    body {
+      background-color: #000;
+      color: #00B6FF;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding-top: 150px;
+    }
+
+    #timer {
+      font-size: 120px;
+      margin-bottom: 40px;
+    }
+
+    button {
+      background-color: #111;
+      color: #00B6FF;
+      border: 2px solid #00B6FF;
+      padding: 12px 24px;
+      margin: 0 10px;
+      font-size: 18px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #00B6FF;
+      color: #000;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="timer">02:00</div>
+
+  <button onclick="startTimer()">Start</button>
+  <button onclick="stopTimer()">Stop</button>
+  <button onclick="resetTimer()">Reset</button>
+
+  <script>
+    let time = 120; // seconds
+    let interval = null;
+
+    function updateDisplay() {
+      const minutes = String(Math.floor(time / 60)).padStart(2, '0');
+      const seconds = String(time % 60).padStart(2, '0');
+      document.getElementById('timer').textContent = `${minutes}:${seconds}`;
+    }
+
+    function startTimer() {
+      if (interval) return; // already running
+      interval = setInterval(() => {
+        if (time > 0) {
+          time--;
+          updateDisplay();
+        } else {
+          clearInterval(interval);
+          interval = null;
+        }
+      }, 1000);
+    }
+
+    function stopTimer() {
+      clearInterval(interval);
+      interval = null;
+    }
+
+    function resetTimer() {
+      stopTimer();
+      time = 120;
+      updateDisplay();
+    }
+
+    // Initialize display
+    updateDisplay();
+  </script>
+
+</body>
+</html>
