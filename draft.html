@@ -22,7 +22,7 @@
 
   <script>
     async function fetchData() {
-      const url = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQuM332JB5a0C3NXfSOtQYzcUK5LThqIQqV_vMsp8uSqb7V1nH_DivI2sM4OmFbwSNW0Q_qYbamhpkg/pubhtml?gid=0&single=true';
+      const url = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQuM332JB5a0C3NXfSOtQYzcUK5LThqIQqV_vMsp8uSqb7V1nH_DivI2sM4OmFbwSNW0Q_qYbamhpkg/pub?gid=0&single=true&output=csv';
       const res = await fetch(url);
       const text = await res.text();
       const rows = text.trim().split('\n').map(r => r.split(','));
