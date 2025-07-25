@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>ASL Draft Overlay</title>
+  <style>
+    body {
+      background-color: #000;
+      color: #00B6FF;
+      font-family: Arial, sans-serif;
+      font-size: 28px;
+      padding: 20px;
+    }
+    .pick {
+      margin-bottom: 15px;
+    }
+  </style>
+</head>
+<body>
+  <h1>ASL Live Draft</h1>
+  <div id="draftPicks"></div>
+
+  <script>
+    async function fetchData() {
+      const url = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQuM332JB5a0C3NXfSOtQYzcUK5LThqIQqV_vMsp8uSqb7V1nH_DivI2sM4OmFbwSNW0Q_qYbamhpkg/pubhtml?gid=0&single=true';
+      const res = await fetch(url);
+      const text = await res.text();
+      const rows = text.trim().split('\n').map(r => r.split(','));
+
+      const header = rows[0];
+      const data = rows.slice(1).reverse(); // reverse to show latest pick first
+
+      const container = document.getElementById('draftPicks');
+      container.innerHTML = '';
+
+      data.slice(0, 5).forEach(row => {
+        const [round, pick, team, driver] = row;
+        const div = document.createElement('div');
+        div.className = 'pick';
+        div.textContent = `R${round} P${pick}: ${team} → ${driver}`;
+        container.appendChild(div);
+      });
+    }
+
+    fetchData();
+    setInterval(fetchData, 5000); // refresh every 5 seconds
+  </script>
+</body>
+</html>
